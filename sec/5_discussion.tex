@@ -1,0 +1,17 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{What transferred, and what did not.}
+The ImageNet picture of token reduction, a smooth accuracy-compute trade-off with a comfortable 30--50\% sweet spot, survives on \pathmnist, where tissue texture is highly redundant, and largely fails on \dermamnist, where no deletion budget beyond 25\% qualified even on validation. The ordering of methods also changes: attention-ranked deletion, the basis of EViT, is not reliably better than random deletion here (H2), while merging, which preserves a summary of every token, is the only mechanism that reached aggressive budgets on two datasets (H3). The depth ablation gives a practical rule: removing tokens before any attention has mixed information is far more harmful than removing the same number after four blocks, even though the former saves more compute (H4).
+
+\paragraph{The validation-to-test gap.}
+Our central negative result is that budgets which were safe on validation for all three seeds did not establish non-inferiority on test. Part of this is real degradation (\pathmnist, where the test set comes from a different centre) and part is precision: \pneumnist has 624 test images, so the conservative bound cannot resolve a 0.5\,\pp margin even when the point estimate is close to zero. Both outcomes argue against reporting validation-selected pruning rates as deployable limits, which is the common practice in the literature we build on. Recovery training is the most promising lever: two epochs reduced the mean loss on every dataset and turned the \pathmnist loss into a small gain, but seed variation kept the bounds below the margin. Whether LoRA-only recovery, which updates under 1\% of the weights, can match full recovery is addressed in \cref{sec:ftgrid}. \TODO{Update once recovery results are in.}
+
+\paragraph{Class-level harm.}
+Aggregate accuracy hid recall drops of 6--12\,\pp on a single class in individual seeds (H5). The affected classes were sometimes the clinically relevant ones (cancer-associated stroma) and sometimes small-support classes where one or two images move the number. Any deployment criterion would need a separate sensitivity margin; we deliberately asserted none.
+
+\paragraph{Limitations.}
+The study covers one backbone size, one pretraining regime, three 2D classification benchmarks and a five-point budget grid. EViT and ToMe are controlled adaptations, so our conclusions concern the mechanisms (summary preservation, merging) rather than the published systems. Intervals are image-level and ignore within-patient correlation. Latency reflects an unoptimised research implementation; merging in particular adds batch-1 overhead that a fused kernel would remove. Finally, the selected validation maxima are grid maxima, not population limits, and we did not retune anything after seeing test results.
+
+\section{Conclusion}
+We measured how far token reduction and parameter-efficient adaptation can be pushed on a medical \deit under a protocol that locks every decision before test inference. The tolerable reduction is dataset-specific, merging beats deletion, depth matters more than count, and small validation-safe losses do not survive conservative held-out confirmation. We hope the locked-test methodology, more than any particular number, is what carries over to future work on efficient medical vision transformers. \TODO{Add the fine-tuning/LoRA takeaway.}

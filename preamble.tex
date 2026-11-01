@@ -1,0 +1,32 @@
+%% Packages and macros shared by main.tex. Loaded before hyperref.
+
+\usepackage{booktabs}     % \toprule, \midrule, \bottomrule
+\usepackage{multirow}
+\usepackage{siunitx}      % aligned numeric columns: S[table-format=...]
+\usepackage{caption}      % \captionof, caption spacing
+\usepackage{xspace}
+
+%% Inline annotations (red). Disable for the final version by uncommenting the
+%% two \renewcommand lines below.
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\todo}[1]{{\color{red}#1}}
+\newcommand{\TODO}[1]{\textbf{\color{red}[TODO: #1]}}
+% \renewcommand{\TODO}[1]{}
+% \renewcommand{\todo}[1]{#1}
+
+%% Dataset and method names
+\newcommand{\pathmnist}{PathMNIST\xspace}
+\newcommand{\dermamnist}{DermaMNIST\xspace}
+\newcommand{\pneumnist}{PneumoniaMNIST\xspace}
+\newcommand{\deit}{DeiT-S\xspace}
+\newcommand{\pp}{pp\xspace}  % percentage points
+
+%% Work harder in optimising text layout. Enable at the very end, when just
+%% above the page limit; typically shrinks text by about 1/6 of a page.
+% \usepackage{microtype}
+
+%% Tighter paragraph headings
+% \renewcommand{\paragraph}[1]{\vspace{.5em}\noindent\textbf{#1.}}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}

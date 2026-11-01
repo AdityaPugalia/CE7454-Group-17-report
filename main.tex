@@ -1,0 +1,49 @@
+% CE7454 Group 17 project report, CVPR 2027 author-kit format.
+% Compile with pdflatex + bibtex (Overleaf default) or latexmk -pdf main.tex
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+%%%%%%%%% PAPER TYPE
+% \usepackage[review]{cvpr}      % anonymous review version with line numbers
+% \usepackage{cvpr}              % camera-ready, no page numbers
+\usepackage[pagenumbers]{cvpr}   % class report: show authors and page numbers
+
+% Additional packages go in preamble.tex (loaded before hyperref)
+\input{preamble}
+
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+
+\def\confName{CE7454}
+\def\confYear{2026}
+
+%%%%%%%%% TITLE
+\title{How Many Tokens Does a Medical ViT Need?\\
+Validation-Selected Token Reduction and Parameter-Efficient Recovery on MedMNIST}
+
+%%%%%%%%% AUTHORS
+\author{Aditya Pugalia \qquad \TODO{Author 2} \qquad \TODO{Author 3}\\
+Group 17, CE7454 Deep Learning for Data Science\\
+Nanyang Technological University, Singapore\\
+{\tt\small adityapugalia30@gmail.com}
+}
+
+\begin{document}
+\maketitle
+\input{sec/0_abstract}
+\input{sec/1_intro}
+\input{sec/2_related}
+\input{sec/3_method}
+\input{sec/4_experiments}
+\input{sec/5_discussion}
+{
+    \small
+    \bibliographystyle{ieeenat_fullname}
+    \bibliography{main}
+}
+
+% Supplementary material does not count toward the 4-page limit.
+% \clearpage
+% \input{sec/X_suppl}
+
+\end{document}

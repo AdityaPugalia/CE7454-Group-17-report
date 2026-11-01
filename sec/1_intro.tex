@@ -1,0 +1,16 @@
+\section{Introduction}
+\label{sec:intro}
+
+Transformer backbones now match or exceed convolutional networks on medical image classification, but a ViT processes every $16\times16$ patch through every block regardless of content~\cite{dosovitskiy2021vit,touvron2021deit}. For a $224\times224$ input this is 196 image tokens, and self-attention and feed-forward cost scale with that count. Token reduction methods such as DynamicViT~\cite{rao2021dynamicvit}, EViT~\cite{liang2022evit} and ToMe~\cite{bolya2023tome} drop or merge tokens part-way through the network and report 30--50\% throughput gains on ImageNet at under one point of accuracy loss.
+
+Medical classification differs from ImageNet in ways that matter for these methods. Datasets are small and class-imbalanced, discriminative evidence may occupy a tiny region (a lesion, a sub-type of tissue), and a mean accuracy drop of half a point can hide a much larger drop in the recall of a clinically important class. Training sets of a few thousand images also make full fine-tuning of a 22M-parameter backbone a questionable use of compute, motivating parameter-efficient adaptation such as LoRA~\cite{hu2022lora}. Prior work on adaptive inference for medical ViTs is sparse and mostly validation-tuned~\cite{byun2026adaptive,zhou2023tokensparse}.
+
+We ask a deliberately narrow question: \emph{for a fixed fine-tuned \deit, how many tokens can be removed after the early blocks before held-out accuracy and class recall degrade, and does the answer depend on the dataset, the reduction mechanism, the reduction depth, and whether the model is briefly re-trained?} Answering it honestly requires guarding against the optimistic bias that creeps in when a budget is chosen and reported on the same data. We therefore adopt a four-stage protocol (\cref{sec:method}): baselines with three training seeds, a validation screen over four reduction methods and five budgets, focused ablations, and a locked test confirmation in which policies and checkpoint hashes are frozen before inference and non-inferiority is assessed with conservative simultaneous paired bounds.
+
+\paragraph{Contributions.}
+\begin{itemize}
+  \item A controlled comparison of random deletion, attention-guided deletion, EViT-style fusion and ToMe-style merging on three MedMNIST tasks, with 279 validation configurations and matched compute, latency and memory measurements.
+  \item Ablations on reduction depth, progressive schedules and input-stage removal, showing that where tokens are removed matters more than how many.
+  \item A pre-registered, locked test evaluation with paired conservative bounds. Its main finding is negative: validation-selected budgets with small mean losses did \emph{not} establish non-inferiority on test, and short recovery training only partly closes the gap.
+  \item A comparison of full, partial, linear-probe and LoRA fine-tuning for initial adaptation and for post-pruning recovery, reporting accuracy together with trainable parameters, wall-clock training time and peak memory. \TODO{Refine once the grid is complete.}
+\end{itemize}
